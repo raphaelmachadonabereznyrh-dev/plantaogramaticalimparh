@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantão Gramatical - IMPARH</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --verde-imparh: #006837;
+            --verde-claro: #4CAF50;
+            --amarelo: #FFC107;
+            --amarelo-claro: #FFD54F;
+            --cinza-claro: #f5f5f5;
+            --cinza-escuro: #333;
+            --branco: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--cinza-claro);
+            color: var(--cinza-escuro);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Cabeçalho */
+        header {
+            background: linear-gradient(to right, var(--verde-imparh), var(--verde-claro));
+            color: var(--branco);
+            padding: 30px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .header-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-text p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* Conteúdo Principal */
+        .main-content {
+            padding: 40px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--verde-imparh);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--amarelo);
+        }
+        
+        /* Cards de Categorias */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background-color: var(--branco);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            padding: 20px;
+            background: linear-gradient(to right, var(--verde-imparh), var(--verde-claro));
+            color: var(--branco);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .card-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            background-color: var(--amarelo);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--verde-imparh);
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .card-content {
+            padding: 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background-color: var(--branco);
+        }
+        
+        .card-content.expanded {
+            max-height: 1000px;
+        }
+        
+        .card-content p {
+            margin-bottom: 15px;
+        }
+        
+        .card-example {
+            background-color: var(--cinza-claro);
+            padding: 15px;
+            border-left: 4px solid var(--amarelo);
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .close-btn {
+            text-align: center;
+            padding: 10px;
+            background-color: var(--cinza-claro);
+            color: var(--verde-imparh);
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            background-color: var(--amarelo);
+        }
+        
+        /* Seções de Informações */
+        .info-section {
+            background-color: var(--branco);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .info-title {
+            color: var(--verde-imparh);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--amarelo);
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .contact-method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--verde-claro);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--branco);
+        }
+        
+        .contact-text {
+            flex: 1;
+        }
+        
+        .contact-text a {
+            color: var(--verde-imparh);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-text a:hover {
+            color: var(--verde-claro);
+            text-decoration: underline;
+        }
+        
+        .news-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: var(--verde-imparh);
+            color: var(--branco);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .news-link:hover {
+            background-color: var(--verde-claro);
+        }
+        
+        /* Rodapé */
+        footer {
+            background: linear-gradient(to right, var(--verde-imparh), var(--verde-claro));
+            color: var(--branco);
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: var(--amarelo);
+        }
+        
+        .footer-text {
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header-text h1 {
+                font-size: 2rem;
+            }
+            
+            .header-text p {
+                font-size: 1rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>Plantão Gramatical</h1>
+                    <p>Instituto Municipal de Pesquisa, Administração e Recursos Humanos</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <div class="container">
+            <h2 class="section-title">Categorias de Dúvidas Frequentes</h2>
+            
+            <!-- Cards de Categorias -->
+            <div class="cards-container">
+                <!-- Card 1 - Abreviatura -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Abreviatura</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-font"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>As abreviaturas são representações reduzidas de palavras ou expressões, muito utilizadas para economizar espaço e tempo em textos.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            "Dr." para Doutor<br>
+                            "Prof." para Professor<br>
+                            "etc." para et cetera
+                        </div>
+                        <p>É importante utilizar abreviaturas padronizadas e conhecidas para evitar confusão na interpretação do texto.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 2 - Conhecimentos Gerais -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Conhecimentos Gerais</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>Conhecimentos gerais referem-se a informações diversas sobre a língua portuguesa que não se enquadram em categorias específicas.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Diferença entre "mal" e "mau"<br>
+                            Uso correto de "onde" e "aonde"<br>
+                            Quando usar "há" ou "a"
+                        </div>
+                        <p>Essas dúvidas são comuns e envolvem aspectos do dia a dia do uso da língua.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 3 - Pontuação -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Pontuação</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-comma"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A pontuação é essencial para dar sentido e clareza aos textos, indicando pausas, entonações e relações entre as ideias.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            "Vamos comer, crianças!"<br>
+                            "Vamos comer crianças!"<br>
+                            A vírgula faz toda a diferença!
+                        </div>
+                        <p>Utilize vírgulas, pontos, dois-pontos e outros sinais de pontuação de forma adequada para garantir a correta compreensão do texto.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 4 - Redação -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Redação</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A redação trata da produção textual, abordando estrutura, coesão, coerência e técnicas para escrever bem.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Como estruturar uma dissertação<br>
+                            Uso de conectivos para coesão textual<br>
+                            Desenvolvimento de argumentos
+                        </div>
+                        <p>Uma boa redação segue uma estrutura clara: introdução, desenvolvimento e conclusão, com ideias well articuladas.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 5 - Crase -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Crase</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-italic"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A crase é a fusão da preposição "a" com o artigo definido "a" ou com pronomes demonstrativos, representada pelo acento grave (`).</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            "Vou à escola." (a + a)<br>
+                            "Refiro-me àquela pessoa." (a + aquela)<br>
+                            "Fui à festa ontem."
+                        </div>
+                        <p>Para usar corretamente a crase, substitua mentalmente a palavra feminina por uma masculina. Se surgir "ao", use crase.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 6 - Estilística -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Estilística</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A estilística estuda os recursos expressivos da linguagem, as figuras de estilo e a criação de efeitos estéticos no texto.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Uso de metáforas e metonímias<br>
+                            Figuras de pensamento e linguagem<br>
+                            Recursos sonoros como aliteração
+                        </div>
+                        <p>O domínio da estilística permite criar textos mais expressivos, criativos e impactantes.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 7 - Fonética -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Fonética</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A fonética estuda os sons da fala, sua produção, transmissão e percepção, incluindo aspectos de pronúncia e acentuação.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Diferença de pronúncia entre "s", "z" e "c"<br>
+                            Pronúncia correta de estrangeirismos<br>
+                            Entonação nas frases interrogativas
+                        </div>
+                        <p>O estudo da fonética ajuda a melhorar a pronúncia e a compreensão dos sons da língua portuguesa.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 8 - Literatura -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Literatura</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A literatura aborda obras literárias, autores, movimentos literários e análise de textos artísticos.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Características do Modernismo<br>
+                            Análise de obras de Machado de Assis<br>
+                            Figuras de linguagem na poesia
+                        </div>
+                        <p>O estudo da literatura amplia o repertório cultural e desenvolve a capacidade de interpretação textual.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 9 - Morfologia -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Morfologia</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-shapes"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A morfologia estuda a estrutura e formação das palavras, analisando classes gramaticais e seus flexões.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Análise de substantivos e adjetivos<br>
+                            Flexão verbal de tempo e modo<br>
+                            Formação de palavras por derivação e composição
+                        </div>
+                        <p>O conhecimento morfológico é fundamental para a compreensão da estrutura das palavras e suas funções na frase.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 10 - Ortografia -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Ortografia</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-spell-check"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A ortografia é o conjunto de regras estabelecidas pela gramática normativa para a correta escrita das palavras de uma língua.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            "Casa" e não "kasa"<br>
+                            "Exercício" e não "exercício"<br>
+                            "Chocolate" e não "xocolate"
+                        </div>
+                        <p>Manter a ortografia correta é fundamental para a comunicação escrita clara e profissional.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 11 - Correção De Texto -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Correção De Texto</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A correção de texto envolve a revisão e aprimoramento de textos escritos, identificando e corrigindo erros gramaticais, ortográficos e de estilo.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Identificação de vícios de linguagem<br>
+                            Correção de concordância verbal e nominal<br>
+                            Ajustes para melhorar a clareza do texto
+                        </div>
+                        <p>Uma boa correção melhora a qualidade do texto, tornando-o mais claro, coerente e adequado ao propósito comunicativo.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 12 - Semântica -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Semântica</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A semântica estuda o significado das palavras e expressões, as relações de sentido entre termos e a interpretação do discurso.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Estudo de sinônimos e antônimos<br>
+                            Análise de ambiguidades textuais<br>
+                            Relações de hiperonímia e hiponímia
+                        </div>
+                        <p>O estudo semântico is essential para a correta interpretação de textos e para evitar mal-entendidos na comunicação.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 13 - Sintaxe -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Sintaxe</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-code-branch"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A sintaxe estuda a disposição das palavras na frase e as relações entre os termos, incluindo concordância, regência e colocação.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Análise de sujeito e predicado<br>
+                            Estudo de objetos diretos e indiretos<br>
+                            Ordem direta e inversa da frase
+                        </div>
+                        <p>O domínio da sintaxe permite construir frases bem estruturadas e gramaticalmente corretas.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 14 - Etimologia -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Etimologia</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A etimologia estuda a origem e a história das palavras, sua evolução semântica e a formação do vocabulário.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Origem latina de palavras portuguesas<br>
+                            Empréstimos linguísticos de outras línguas<br>
+                            Evolução do significado de palavras ao longo do tempo
+                        </div>
+                        <p>Conhecer a etimologia ajuda a compreender melhor o significado das palavras e a expandir o vocabulário.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 15 - Exegese -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Exegese</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-binoculars"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A exegese é a interpretação crítica e detalhada de textos, especialmente textos antigos, literários ou sagrados.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Interpretação de textos bíblicos<br>
+                            Análise de obras literárias clássicas<br>
+                            Estudo de documentos históricos
+                        </div>
+                        <p>A exegese requer conhecimento do contexto histórico, cultural e linguístico em que o texto foi produzido.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 16 - Linguística -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Linguística</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-language"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>A linguística é a ciência que estuda a linguagem humana em seus aspectos estruturais, funcionais e evolutivos.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Teorias sobre aquisição da linguagem<br>
+                            Estudo das variações linguísticas<br>
+                            Análise do discurso e pragmática
+                        </div>
+                        <p>A linguística aborda desde os sons da fala até as estruturas gramaticais complexas e o uso social da linguagem.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+                
+                <!-- Card 17 - Língua Estrangeira -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Língua Estrangeira</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-passport"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <p>O estudo de línguas estrangeiras aborda aspectos gramaticais, lexicais e culturais de idiomas além do português.</p>
+                        <div class="card-example">
+                            <strong>Exemplos:</strong><br>
+                            Diferenças entre português e espanhol<br>
+                            Empréstimos linguísticos do inglês<br>
+                            Falsos cognatos em diferentes idiomas
+                        </div>
+                        <p>O conhecimento de línguas estrangeiras amplia as possibilidades de comunicação e compreensão intercultural.</p>
+                        <div class="close-btn">Fechar <i class="fas fa-times"></i></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seção de Contato -->
+            <div class="info-section">
+                <h2 class="info-title">Contato do Plantão Gramatical</h2>
+                <div class="contact-info">
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Telefones Fixos</h3>
+                            <p>2018-0107 | 2018-0108</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>WhatsApp</h3>
+                            <p><a href="https://wa.me/558592143411" target="_blank">+55 85 9214-3411</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Telegram</h3>
+                            <p><a href="https://t.me/PlantaoGramaticalImparhBot" target="_blank">@PlantaoGramaticalImparhBot</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seção de Cursos -->
+            <div class="info-section">
+                <h2 class="info-title">Cursos do Centro de Línguas IMPARH</h2>
+                <p>Sim, o IMPARH oferece diversos cursos de línguas e comunicação. Entre em contato para mais informações e para verificar a disponibilidade de vagas nos períodos de inscrição.</p>
+                <div class="contact-method" style="margin-top: 20px;">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h3>Telefone para Informações sobre Cursos</h3>
+                        <p><strong>2018-0115</strong></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seção de Endereço e Horário -->
+            <div class="info-section">
+                <h2 class="info-title">Endereço e Horário</h2>
+                <p><strong>Horário de funcionamento do Plantão Gramatical:</strong></p>
+                <p>Segunda a sexta-feira, das 8h às 17h</p>
+                <div class="contact-method" style="margin-top: 20px;">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h3>Endereço</h3>
+                        <p>IMPARH - Rua Paulo Firmeza, 20 - Centro, Fortaleza - CE, 60060-130</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Links Rápidos -->
+            <div style="text-align: center; margin: 40px 0;">
+                <a href="https://catalogodeservicos.fortaleza.ce.gov.br/categoria/educacao" class="news-link" target="_blank">
+                    Educação - Prefeitura de Fortaleza
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="footer-text">
+                    <p>Plantão Gramatical - Serviço de referência para dúvidas sobre Língua Portuguesa</p>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2025 IMPARH - Prefeitura de Fortaleza</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seleciona todos os cards
+            const cards = document.querySelectorAll('.card');
+            
+            // Adiciona evento de clique para cada card
+            cards.forEach(card => {
+                const cardHeader = card.querySelector('.card-header');
+                const cardContent = card.querySelector('.card-content');
+                const closeBtn = card.querySelector('.close-btn');
+                
+                cardHeader.addEventListener('click', function() {
+                    // Fecha todos os outros cards abertos
+                    cards.forEach(otherCard => {
+                        if (otherCard !== card) {
+                            otherCard.querySelector('.card-content').classList.remove('expanded');
+                        }
+                    });
+                    
+                    // Abre/fecha o card clicado
+                    cardContent.classList.toggle('expanded');
+                });
+                
+                // Adiciona evento de clique para o botão de fechar
+                closeBtn.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Impede que o evento chegue ao card-header
+                    cardContent.classList.remove('expanded');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
